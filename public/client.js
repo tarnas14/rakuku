@@ -72,12 +72,37 @@ $(() => {
 
     const code = document.getElementById('simple-voucherCode').value
 
-    fetch('/simple-redeem', {
+    fetch('/redeem', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ code })
+    }).then(response => {
+      if (response.status === 200) {
+        success()
+        return
+      }
+
+      error(response.statusText)
+    })
+  })
+
+  document.getElementById('full-redeem').addEventListener('click', e => {
+    e.preventDefault()
+    hideLastResult()
+
+    const code = document.getElementById('full-voucherCode').value
+    const email = document.getElementById('full-email').value
+    const name = document.getElementById('full-name').value
+    const amount = document.getElementById('full-amount').value
+
+    fetch('/redeem', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ code, email, name, amount })
     }).then(response => {
       if (response.status === 200) {
         success()

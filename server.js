@@ -4,6 +4,8 @@ const voucherifyClient = require('voucherify');
 const app = express();
 const bodyParser = require('body-parser');
 
+const debug = false
+
 const voucherify = voucherifyClient({
     applicationId: process.env.APPLICATION_ID,
     clientSecretKey: process.env.CLIENT_SECRET_KEY
@@ -12,14 +14,8 @@ const voucherify = voucherifyClient({
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-app.post('/simple-redeem', function (request, response) {
-  const {code} = request.body
-
-  if (!code) {
-    response.statusMessage = 'Code required'
-    response.status(400).end()
-    return
-  }
+app.post('/redeem', function (request, response) {
+  const {code, name, email, amount} = request.body
 
   console.log('VALIDATING', code)
   voucherify.validations.validateVoucher(code).then(
@@ -30,8 +26,22 @@ app.post('/simple-redeem', function (request, response) {
         return
       }
 
-      voucherify.redemptions.redeem(code).then(
+      const additionalRedemptionParameters = (name || email || amount) && {
+        customer: {
+          name,
+          email
+        },
+        order: {
+          amount: Number(amount) * 100
+        }
+      }
+
+      console.log('REDEEMING', code)
+      debug && console.log('WITH PARAMS', JSON.stringify(additionalRedemptionParameters, null, 2))
+      voucherify.redemptions.redeem(code, additionalRedemptionParameters).then(
         redemptionResponse => {
+          debug && console.log('REDEMPTION RESPONSE', JSON.stringify(redemptionResponse, null, 2))
+
           if (redemptionResponse.result !== 'SUCCESS') {
             response.statusMessage = 'Redemption failed with result ' + redemptionResponse.result
             response.status(400).end()
