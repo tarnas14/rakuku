@@ -40,7 +40,7 @@ const setupVouchers = campaignResponse => {
     return response
   }))
 
-  return Promise.all(voucherPromises).then(() => console.log('ALL VOUCHERS CREATED') || response)
+  return Promise.all(voucherPromises).then(resp => console.log('ALL VOUCHERS CREATED') || resp)
 }
 
 const products = require('./products')
