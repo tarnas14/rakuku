@@ -5,7 +5,9 @@ This example shows how you could implement a voucher redemption as the last step
 
 You can browse the code (and quickly spin up your own rendition of this example) [here](https://glitch.com/edit/#!/voucherify-redemption-example) and see a working live example at [https://voucherify-redemption-example.glitch.me/](https://voucherify-redemption-example.glitch.me/).
 
-In the example you will find usages of validation and redemption functionalities in Voucherify package. The `server.js` uses `redemptions` and `validations` namespaces of voucherify client. This is more convenient than hitting the API endpoints directly, the client does all the groundwork of constructing REST requests for you.
+In the example you will find usages of validation and redemption functionalities in Voucherify package. Be aware that we are only showing the use of the library. There is no validation in this example and as such you should not consider this production ready code.
+
+The `server.js` uses `redemptions` and `validations` namespaces of voucherify client. This is more convenient than hitting the API endpoints directly, the client does all the groundwork of constructing REST requests for you.
 
 ## Useful links
 
