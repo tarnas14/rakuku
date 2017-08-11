@@ -60,3 +60,9 @@ form {
 #result p.error {
   background-color: #f8dffe;
 }
+
+footer {
+  margin-top: 1.5em;
+  padding-top: 1.5em;
+  border-top: 1px solid #dfdfdf;
+}
