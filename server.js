@@ -14,11 +14,24 @@ const voucherify = voucherifyClient({
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
+const getProductsInCart = () => {
+  const productsForThisDemo = require('./products')
+
+  return voucherify.products.list()
+    .then(response => {
+      const idsForThisDemo = productsForThisDemo.map(p => p.id)
+      return response.products.filter(product => idsForThisDemo.includes(product.source_id))
+    })
+    .catch(error => {
+      console.error("[Getting Products][Error] error: %j", error);
+    });
+}
+
 app.post('/redeem', function (request, response) {
   const {code, name, email, amount} = request.body
 
   console.log('VALIDATING', code)
-  voucherify.validations.validateVoucher(code).then(
+  getProductsInCart().then(products => voucherify.validations.validateVoucher(code).then(
     validationResponse => {
       if (!validationResponse.valid) {
         response.statusMessage = 'Validation failed: ' + validationResponse.reason
@@ -29,10 +42,15 @@ app.post('/redeem', function (request, response) {
       const additionalRedemptionParameters = (name || email || amount) && {
         customer: {
           name,
-          email
+          email,
+          source_id: email
         },
         order: {
-          amount: Number(amount) * 100
+          amount: Number(amount) * 100,
+          items: products.slice(0, 1).map(prod => ({
+            product_id: prod.id,
+            quantity: 1
+          })) 
         }
       }
 
@@ -62,7 +80,7 @@ app.post('/redeem', function (request, response) {
       response.statusMessage = 'Validation failed unexpectedly'
       response.status(400).end()
     }
-  )
+  ))
 })
 
 // http://expressjs.com/en/starter/basic-routing.html
