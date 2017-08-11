@@ -4,12 +4,6 @@ const voucherify = require('voucherify')({
     applicationId: process.env.APPLICATION_ID,
     clientSecretKey: process.env.CLIENT_SECRET_KEY
 })
-const fs = require('fs')
-
-const dataDir = './.data'
-if (!fs.existsSync(dataDir)){
-    fs.mkdirSync(dataDir);
-}
 
 const setupCampaign = () => {
   const campaign = require('./campaign')
@@ -70,5 +64,5 @@ const setupProducts = () => {
 
   return Promise.all(productCreationPromises).then(resp => console.log('ALL PRODUCTS SETUP') || resp)
 }
-setupVouchers({name: 'voucherify-redemption-example'})
-// setupCampaign().then(setupVouchers).then(setupProducts)
+// setupVouchers({name: 'voucherify-redemption-example'})
+setupCampaign().then(setupVouchers).then(setupProducts)
