@@ -16,15 +16,7 @@ app.use(bodyParser.json());
 
 const getProductsInCart = () => {
   const productsForThisDemo = require('./products')
-
-  return voucherify.products.list()
-    .then(response => {
-      const idsForThisDemo = productsForThisDemo.map(p => p.id)
-      return response.products.filter(product => idsForThisDemo.includes(product.source_id))
-    })
-    .catch(error => {
-      console.error("[Getting Products][Error] error: %j", error);
-    });
+  return Promise.resolve(productsForThisDemo)
 }
 
 app.post('/redeem', function (request, response) {
@@ -48,7 +40,8 @@ app.post('/redeem', function (request, response) {
         order: {
           amount: Number(amount) * 100,
           items: products.slice(0, 1).map(prod => ({
-            product_id: prod.id,
+            source_id: prod.id,
+            related_object: 'product',
             quantity: 1
           })) 
         }
