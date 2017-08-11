@@ -53,7 +53,7 @@ $(() => {
     const container = document.getElementById('result')
     const info = document.createElement('p')
     info.className = 'error'
-    info.appendChild(document.createTextNode(text))
+    info.appendChild(document.createTextNode(text || 'Redemption failed'))
     container.appendChild(info)
   }
 
