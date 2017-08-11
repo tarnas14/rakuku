@@ -4,25 +4,37 @@ const voucherify = require('voucherify')({
     applicationId: process.env.APPLICATION_ID,
     clientSecretKey: process.env.CLIENT_SECRET_KEY
 })
-const fs = require('fs')
-
-const dataDir = './.data'
-if (!fs.existsSync(dataDir)){
-    fs.mkdirSync(dataDir);
-}
 
 const setupCampaign = () => {
   const campaign = require('./campaign')
   const thisCampaign = voucherify.campaigns.create(campaign)
 
-  thisCampaign.then(
+  return thisCampaign.then(
     response => console.log(`Campaign ${campaign.name} has been succesfully set up`) || response,
     problem => console.log(`There was a problem setting up ${campaign.name}`, JSON.stringify(problem, null, 2))
   )
 }
 
+const range = n => Array.apply(null, Array(n)).map((_, i) => i)
+
 const setupVouchers = campaignResponse => {
-    console.log(campaignResponse)
+  const campaignName = campaignResponse.name
+
+  const voucherPromises = range(10).map((_, i) => voucherify.campaigns.addVoucher(campaignName, {
+      additional_info: 'voucherify-redemption-example',
+      redemption: {
+        quantity: null
+      }
+  }).then(response => {
+    console.log(`voucher ${i} created`)
+    if (i % 4 === 0) {
+      return voucherify.vouchers.disable(response.code).then(() => console.log(`disabled ${i}`))
+    }
+
+    return response
+  }))
+
+  return Promise.all(voucherPromises).then(resp => console.log('ALL VOUCHERS CREATED') || resp)
 }
 
 const products = require('./products')
@@ -52,5 +64,5 @@ const setupProducts = () => {
 
   return Promise.all(productCreationPromises).then(resp => console.log('ALL PRODUCTS SETUP') || resp)
 }
-
+// setupVouchers({name: 'voucherify-redemption-example'})
 setupCampaign().then(setupVouchers).then(setupProducts)
