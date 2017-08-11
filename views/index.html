@@ -14,9 +14,9 @@
   <body>
     <section id="result"> </section>
     <section class="container">
-      <form>
+      <h4 class="hide" data-toggle="minimal-example,full-example">Minimal example (toggle)</h4>
+      <form id="minimal-example">
         <fieldset>
-          <label>Minimal example</label>
           <input type="text" placeholder="voucher code" id="simple-voucherCode"/>
           <button class="button-primary" id="simple-redeem">Redeem</button>
         </fieldset>
@@ -24,9 +24,9 @@
     </section>
     <hr />
     <section class="container">
-      <form>
+      <h4 class="hide" data-toggle="full-example,minimal-example">Full example (toggle)</h4>
+      <form id="full-example" class="hidden">
         <fieldset>
-          <label>Full example</label>
           <input type="email" placeholder="customer email" id="full-email"/>
           <input type="text" placeholder="customer name" id="full-name"/>
           <input type="number" placeholder="order amount" id="full-amount"/>

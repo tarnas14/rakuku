@@ -112,4 +112,21 @@ $(() => {
       error(response.statusText)
     })
   })
+
+  document.querySelectorAll('.hide').forEach(hideButton => {
+    hideButton.addEventListener('click', e => {
+      const target = e.target
+
+      const toToggle = target.getAttribute('data-toggle').split(',')
+
+      toToggle.map(id => document.getElementById(id)).forEach(toggled => {
+        if (toggled.className.includes('hidden')) {
+          toggled.className = toggled.className.replace('hidden', '')
+          return
+        }
+
+        toggled.className = toggled.className + 'hidden'
+      })
+    })
+  })
 })
