@@ -13,13 +13,33 @@
   </head>
   <body>
     <header>
-      <h1>
-        A Voucherify example
-      </h1>
+      <section class="container">
+        <h1>
+          A Voucherify example
+        </h1>
+        <p>This example showcases <a href="http://docs.voucherify.io/docs/referral-program">Voucherify referral program</a>. We strongly recommend giving the tutorial a read to understand what is going on in this example.</p>
+      </section>
     </header>
 
     <main>
-  
+      <section class="container">
+        <h2>Get your referral link</h2>
+        <p>
+          When the referral criteria are met, the referrer will be rewarded with a coupon, if you wish to receive the coupon please put your email here</br>
+          We strongly recommend using something like <em>your.email+somelabel@gmail.com</em></br>
+          <span class="smaller-font">under the hood we are using AWS to send emails, so addresses like 10minutemail and so on might be filtered out and not receive the email</span>
+        </p>
+        <form>
+          <fieldset><input id="email" type="email" placeholder="email (optional)"/></fieldset>
+          <button id="generateReferralLinks">Generate links</button>
+        </form>
+        <div id="referralLinksContainer" class="hidden">
+          <p>
+            Every redemption of this referral gives you a reward gift voucher:</br>
+            <a href="" target="_blank" id="rewardEveryRedemption"></a>
+          </p>
+        </div>
+      </section>
     </main>
 
     <footer>
@@ -31,7 +51,7 @@
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" 
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/rspective/voucherify.js@latest/dist/voucherify.min.js"></script>
-    <script src="/client.js"></script>
+    <script src="/index.js"></script>
 
   </body>
 </html>

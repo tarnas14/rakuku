@@ -1,0 +1,21 @@
+form {
+  width: 50%;
+  margin: 2em auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  margin: .5em 0;
+}
+
+.container {
+  text-align: center;
+}
+
+.smaller-font {
+  font-size: .8em;
+}
