@@ -24,8 +24,6 @@ getReferralVoucher.then(referralVoucher => {
     redeemButton.setAttribute('disabled', true)
     const timer = setTimeout(() => redeemButton.removeAttribute('disabled'), 2000)
 
-    const email = document.getElementById('email').value
-
     fetch('/redeem', {
       method: 'POST',
       headers: {
