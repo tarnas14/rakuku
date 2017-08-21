@@ -26,18 +26,18 @@ const voucherify = require('voucherify')({
 
 io.on('connection', socket => {
   app.post('/reward', (request, response) => {
-    const {type} = request.body
-    if (type !== 'customer.rewarded') {
+    const {type: eventType} = request.body
+    if (eventType !== 'customer.rewarded') {
       response.status(400).end()
       return
     }
     
-    const {data: {object: {id: customerId}, related_object: reward}} = request.body
+    const {data: {object: {id: customerId}, related_object: reward}, metadata: {source: {object_id: id, tier_name: tier, object_type: type}}} = request.body
 
     console.log('REWARD')
     console.log(JSON.stringify(request.body, null, 2))
 
-    io.emit(customerId, reward)
+    io.emit(customerId, {reward, source: {id, tier, type}})
     response.status(200).end()
   })
 })
@@ -62,7 +62,7 @@ app.post('/redeem', (request, response) => {
 app.get('/referral/:code', (request, response) => {
   const {code} = request.params
   voucherify.vouchers.get(code)
-    .then(codeResponse => console.log(JSON.stringify(codeResponse, null, 2)) || codeResponse)
+    // .then(codeResponse => console.log(JSON.stringify(codeResponse, null, 2)) || codeResponse)
     .then(codeResponse => Promise.all([codeResponse, voucherify.customers.get(codeResponse.referrer_id)]))
     .then(([codeResponse, referrerResponse]) => {
       response.status(200).json({
@@ -95,7 +95,7 @@ app.get('/getReferralLinks', (request, response) => {
   const nRedemptionsPromise = Promise.resolve()
 
   Promise.all([everyRedemptionPromise, nRedemptionsPromise]).then(([everyRedemptionResponse, nRedemptionsResponse]) => {
-    console.log(JSON.stringify(everyRedemptionResponse, null, 2))
+    // console.log(JSON.stringify(everyRedemptionResponse, null, 2))
     response.status(201).json({
       customerId: everyRedemptionResponse.customer_id,
       rewardEveryRedemption: everyRedemptionResponse.voucher.code,
