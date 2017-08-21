@@ -1,8 +1,46 @@
+const documentReady = new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve))
+
 const socket = io()
 socket.on('connect', () => console.log('connected'))
 socket.on('disconnect', () => console.log('disconnected'))
 
-const documentReady = new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve))
+const addReward = ({tier, campaign, description, when}) => {
+  const noRewards = document.getElementById('noRewardsYet')
+  noRewards.className = noRewards.className.includes('hidden')
+    ? noRewards.className
+    : `${noRewards.className} hidden`
+
+  const row = document.createElement('tr')
+  const addToRow = text => {
+    const el = document.createElement('td')
+    el.appendChild(document.createTextNode(text))
+
+    row.appendChild(el)
+  }
+
+  addToRow(when)
+  addToRow(description)
+  addToRow(campaign)
+  addToRow(tier)
+
+  const rewardsElement = document.getElementById('rewards')
+  rewardsElement.appendChild(row)
+}
+
+const handleRewardEvent = ({when, reward, source}) => {
+  console.log(when)
+  addReward({
+    when: (new Date(when)).toLocaleDateString('en-GB', {
+      hour: 'numeric', minute: 'numeric', second: 'numeric',
+      hour12: false
+    }),
+    tier: source.tier,
+    campaign: source.id,
+    description: `Your $${reward.gift.amount / 100} gift card: ${reward.code}`
+  })
+}
+
+// socket.on('test_customer_id', handleRewardEvent)
 
 const addLinks = ({rewardEveryRedemption}) => {
   document.getElementById('referralLinksContainer').className = ''
@@ -23,7 +61,7 @@ documentReady.then(() => {
         return response
       })
       .then(({customerId}) => {
-        socket.on(customerId, data => console.log('reward!', data))
+        socket.on(customerId, handleRewardEvent)
       })
   })
 })

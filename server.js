@@ -32,12 +32,16 @@ io.on('connection', socket => {
       return
     }
     
-    const {data: {object: {id: customerId}, related_object: reward}, metadata: {source: {object_id: id, tier_name: tier, object_type: type}}} = request.body
+    const {
+      created_at: createdAt,
+      data: {object: {id: customerId}, related_object: reward},
+      metadata: {source: {object_id: id, tier_name: tier, object_type: type}}
+    } = request.body
 
     console.log('REWARD')
     console.log(JSON.stringify(request.body, null, 2))
 
-    io.emit(customerId, {reward, source: {id, tier, type}})
+    io.emit(customerId, {when: createdAt, reward, source: {id, tier, type}})
     response.status(200).end()
   })
 })
