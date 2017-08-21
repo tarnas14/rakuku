@@ -19,3 +19,7 @@ main .container, header .container {
 .smaller-font {
   font-size: .8em;
 }
+
+.bigger-font {
+  font-size: 1.3em;
+}
