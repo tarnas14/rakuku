@@ -26,8 +26,15 @@ const voucherify = require('voucherify')({
 
 io.on('connection', socket => {
   app.post('/reward', (request, response) => {
-    const {object: {id: customerId, reward}} = request.body
+    const {type} = request.body
+    if (type !== 'customer.rewarded') {
+      response.status(400).end()
+      return
+    }
+    
+    const {data: {object: {id: customerId}, related_object: reward}} = request.body
 
+    console.log('REWARD')
     console.log(JSON.stringify(request.body, null, 2))
 
     io.emit(customerId, reward)
