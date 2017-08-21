@@ -1,7 +1,9 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
+require('dotenv').config()
+const express = require('express')
+const bodyParser = require('body-parser')
+const app = express()
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
 
 app.use(bodyParser.json())
 
@@ -21,6 +23,17 @@ const voucherify = require('voucherify')({
     applicationId: process.env.APPLICATION_ID,
     clientSecretKey: process.env.CLIENT_SECRET_KEY
 });
+
+io.on('connection', socket => {
+  app.post('/reward', (request, response) => {
+    const {object: {id: customerId, reward}} = request.body
+
+    console.log(JSON.stringify(request.body, null, 2))
+
+    io.emit(customerId, reward)
+    response.status(200).end()
+  })
+})
 
 app.post('/redeem', (request, response) => {
   const {code} = request.body
@@ -75,8 +88,9 @@ app.get('/getReferralLinks', (request, response) => {
   const nRedemptionsPromise = Promise.resolve()
 
   Promise.all([everyRedemptionPromise, nRedemptionsPromise]).then(([everyRedemptionResponse, nRedemptionsResponse]) => {
-    // console.log(JSON.stringify(everyRedemptionResponse, null, 2))
+    console.log(JSON.stringify(everyRedemptionResponse, null, 2))
     response.status(201).json({
+      customerId: everyRedemptionResponse.customer_id,
       rewardEveryRedemption: everyRedemptionResponse.voucher.code,
       // rewardEveryNRedemptions: nRedemptionsResponse.voucher.code
     }).end()
@@ -84,6 +98,6 @@ app.get('/getReferralLinks', (request, response) => {
 })
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = server.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
