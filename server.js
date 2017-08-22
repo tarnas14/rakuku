@@ -5,6 +5,8 @@ const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
+const {REWARD_EVERY_REDEMPTION_CAMPAIGN_NAME, TIERED_REFERRAL_PROGRAM_CAMPAIGN_NAME} = process.env
+
 app.use(bodyParser.json())
 
 // http://expressjs.com/en/starter/static-files.html
@@ -85,7 +87,7 @@ app.get('/referral/:code', (request, response) => {
 app.get('/getReferralLinks', (request, response) => {
   const {email, name} = request.query
   const everyRedemptionPromise = voucherify.distributions.publish({
-    campaign: 'rewardEveryRedemption',
+    campaign: REWARD_EVERY_REDEMPTION_CAMPAIGN_NAME,
     customer: {
       source_id: email,
       email,
@@ -97,7 +99,7 @@ app.get('/getReferralLinks', (request, response) => {
   })
 
   const tieredRewardsRedemptionPromise = voucherify.distributions.publish({
-    campaign: 'tieredReferralProgram',
+    campaign: TIERED_REFERRAL_PROGRAM_CAMPAIGN_NAME,
     customer: {
       source_id: email,
       email,
