@@ -50,6 +50,9 @@ app.post('/redeem', (request, response) => {
   const {code} = request.body
 
   voucherify.redemptions.redeem(code, {
+    customer: {
+      source_id: Date.now()
+    },
     metadata: {
       from: 'voucherify referral example'
     }

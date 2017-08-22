@@ -73,7 +73,9 @@ documentReady.then(() => {
       .then(response => console.log(response) || response)
       .then(({rewardEveryRedemption, tieredRewardsRedemption}) => {
         socket.on(rewardEveryRedemption.customerId, handleRewardEvent)
-        socket.on(tieredRewardsRedemption.customerId, handleRewardEvent)
+        if (tieredRewardsRedemption.customerId !== rewardEveryRedemption.customerId) {
+          socket.on(tieredRewardsRedemption.customerId, handleRewardEvent)
+        }
       })
   })
 })
