@@ -37,10 +37,7 @@ io.on('connection', socket => {
       data: {object: {id: customerId}, related_object: reward},
       metadata: {source: {object_id: id, tier_name: tier, object_type: type}}
     } = request.body
-
-    console.log('REWARD')
-    console.log(JSON.stringify(request.body, null, 2))
-
+    
     io.emit(customerId, {when: createdAt, reward, source: {id, tier, type}})
     response.status(200).end()
   })
@@ -98,7 +95,7 @@ app.get('/getReferralLinks', (request, response) => {
       source: 'voucherify referral example'
     }
   })
-  // const nRedemptionsPromise = voucherif.distributions.publish('rewardEveryNRedemptions')
+
   const tieredRewardsRedemptionPromise = voucherify.distributions.publish({
     campaign: 'tieredReferralProgram',
     customer: {

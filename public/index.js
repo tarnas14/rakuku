@@ -40,8 +40,6 @@ const handleRewardEvent = ({when, reward, source}) => {
   })
 }
 
-// socket.on('test_customer_id', handleRewardEvent)
-
 const addLinks = ({rewardEveryRedemption, tieredRewardsRedemption}) => {
   document.getElementById('referralLinksContainer').className = ''
 
