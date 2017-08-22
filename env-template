@@ -1,0 +1,18 @@
+# Environment Config
+
+# store your secrets and config variables in here
+# only invited collaborators will be able to see your .env values
+
+# reference these in your code with process.env.SECRET
+
+# Voucherify app id
+APPLICATION_ID=''
+# Voucherify client secret
+CLIENT_SECRET_KEY=''
+# your referral program with reward on every redemption
+REWARD_EVERY_REDEMPTION_CAMPAIGN_NAME=''
+# your referral program with tiered rewards
+TIERED_REFERRAL_PROGRAM_CAMPAIGN_NAME=''
+PORT=3000
+
+# note: .env is a shell file so there can't be spaces around =
