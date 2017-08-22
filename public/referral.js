@@ -33,7 +33,8 @@ getReferralVoucher.then(referralVoucher => {
       body: JSON.stringify({code})
     }).then(response => {
       clearTimeout(timer)
-      document.getElementById('success').className = ''
+      const success = document.getElementById('success')
+      success.className = success.className.replace('hidden', '').trim()
     })
   })
 })
