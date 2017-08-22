@@ -96,14 +96,28 @@ app.get('/getReferralLinks', (request, response) => {
     }
   })
   // const nRedemptionsPromise = voucherif.distributions.publish('rewardEveryNRedemptions')
-  const nRedemptionsPromise = Promise.resolve()
+  const tieredRewardsRedemptionPromise = voucherify.distributions.publish({
+    campaign: 'tieredReferralProgram',
+    customer: {
+      source_id: email,
+      email,
+      name
+    },
+    metadata: {
+      source: 'voucherify referral example'
+    }
+  })
 
-  Promise.all([everyRedemptionPromise, nRedemptionsPromise]).then(([everyRedemptionResponse, nRedemptionsResponse]) => {
-    // console.log(JSON.stringify(everyRedemptionResponse, null, 2))
+  Promise.all([everyRedemptionPromise, tieredRewardsRedemptionPromise]).then(([everyRedemptionResponse, tieredRewardsRedemption]) => {
     response.status(201).json({
-      customerId: everyRedemptionResponse.customer_id,
-      rewardEveryRedemption: everyRedemptionResponse.voucher.code,
-      // rewardEveryNRedemptions: nRedemptionsResponse.voucher.code
+      rewardEveryRedemption: {
+        customerId: everyRedemptionResponse.customer_id,
+        code: everyRedemptionResponse.voucher.code
+      },
+      tieredRewardsRedemption: {
+        customerId: tieredRewardsRedemption.customer_id,
+        code: tieredRewardsRedemption.voucher.code 
+      }
     }).end()
   })
 })

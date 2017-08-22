@@ -42,13 +42,23 @@ const handleRewardEvent = ({when, reward, source}) => {
 
 // socket.on('test_customer_id', handleRewardEvent)
 
-const addLinks = ({rewardEveryRedemption}) => {
+const addLinks = ({rewardEveryRedemption, tieredRewardsRedemption}) => {
   document.getElementById('referralLinksContainer').className = ''
 
-  const every = document.getElementById('rewardEveryRedemption')
-  const everyRedemptionRewardLink = `${document.location.origin}/referral?code=${encodeURIComponent(rewardEveryRedemption)}`
-  every.href = everyRedemptionRewardLink
-  every.innerHTML = everyRedemptionRewardLink
+  const addLink = (element, link) => {
+    element.href = link
+    element.innerHTML = link
+  }
+
+  addLink(
+    document.getElementById('rewardEveryRedemption'),
+    `${document.location.origin}/referral?code=${encodeURIComponent(rewardEveryRedemption.code)}`
+  )
+
+  addLink(
+    document.getElementById('tieredRewardsRedemption'),
+    `${document.location.origin}/referral?code=${encodeURIComponent(tieredRewardsRedemption.code)}`
+  )
 }
 
 documentReady.then(() => {
@@ -60,8 +70,10 @@ documentReady.then(() => {
         addLinks(response)
         return response
       })
-      .then(({customerId}) => {
-        socket.on(customerId, handleRewardEvent)
+      .then(response => console.log(response) || response)
+      .then(({rewardEveryRedemption, tieredRewardsRedemption}) => {
+        socket.on(rewardEveryRedemption.customerId, handleRewardEvent)
+        socket.on(tieredRewardsRedemption.customerId, handleRewardEvent)
       })
   })
 })
