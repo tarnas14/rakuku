@@ -4,6 +4,7 @@ const codeRegex = /^\?code=(.*)$/
 const [, code] = document.location.search.match(codeRegex)
 
 const getReferralVoucher = documentReady.then(() => fetch(`/referral/${code}`).then(r => r.json()).then(response => {
+  document.querySelector('.loading-indicator-wrapper').className += ' hidden'
   document.getElementById('referrer').innerHTML = response.referrer.name || response.referrer.email
 
   document.querySelector('main').className = ''
