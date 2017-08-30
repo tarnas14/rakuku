@@ -15,10 +15,6 @@ app.get('/', function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 })
 
-app.get('/referral', (request, response) => {
-  response.sendFile(__dirname + '/views/referral.html')
-})
-
 const voucherify = require('voucherify')({
     applicationId: process.env.APPLICATION_ID,
     clientSecretKey: process.env.CLIENT_SECRET_KEY
