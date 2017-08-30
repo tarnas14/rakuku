@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Voucherify Referral Program Example - Referrer page</title>
-    <meta name="description" content="A Voucherify example">
+    <title>Voucherify Redemption Webhooks Example</title>
+    <meta name="description" content="A Voucherify Webhooks example">
     <link id="favicon" rel="icon" href="https://www.voucherify.io/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,53 +15,13 @@
     <header>
       <section class="container">
         <h1>
-          Voucherify Referral Program Example
+          Voucherify Redemption Webhooks Example
         </h1>
-        <p>This example showcases <a href="http://docs.voucherify.io/docs/referral-program">Voucherify referral program</a>. We strongly recommend giving the tutorial a read to understand what is going on in this example.</p>
+        <p>This example showcases <a href="http://docs.voucherify.io/docs/webhooks">redemption webhooks</a>. It will show how you can easily get information about redemptions in your system.</p>
       </section>
     </header>
 
     <main>
-      <section class="container">
-        <h2>Get your referral link</h2>
-        <p>
-          When the referral criteria are met, the referrer will be rewarded with <a href="https://docs.voucherify.io/docs/prepaid-gift-cards">gift card</a>, if you wish to receive the rewards, please provide an email<br/>
-          We strongly recommend using something like <em>your.email+somelabel@gmail.com</em><br/>
-          <span class="smaller-font">under the hood we are doing some filtering and and email checking, so addresses like 10minutemail and so on might be filtered out and not receive the reward email</span>
-        </p>
-        <form>
-          <fieldset><input id="email" type="email" placeholder="email (optional)"/></fieldset>
-          <button id="generateReferralLinks">Generate links</button>
-        </form>
-        <div id="referralLinksContainer" class="hidden">
-          <hr/>
-
-          <p class="bigger-font">
-            Every redemption of this referral gives you a <a href="https://docs.voucherify.io/docs/prepaid-gift-cards">gift card</a> reward:<br/>
-            <a href="" target="_blank" id="rewardEveryRedemption"></a>
-          </p>
-
-          <hr/>
-
-          <p class="bigger-font">
-            Redemptions of this referral give you a <a href="http://support.voucherify.io/article/62-scenario-3" target="_blank">multi level rewards</a>.<br/>
-            <span class="smaller-font">In this example by default you will get Tier 1 reward after 2 redemptions and Tier 2 reward after 4 redemptions</span><br/>
-            <a href="" target="_blank" id="tieredRewardsRedemption"></a>
-          </p>
-
-          <hr/>
-
-          <table>
-            <caption>Your rewards:</caption>
-            <thead>
-              <tr><th>Rewarded at</th><th>Description</th><th>Rewarded from capaign</th><th>Reward Tier</th></tr>
-            </thead>
-            <tbody id="rewards">
-            </tbody>
-          </table>
-          <p class="smaller-font" id="noRewardsYet">If you receive a reward after redeeming codes above, they will be displayed here (as well as sent to the provided email)</p>
-        </div>
-      </section>
     </main>
 
     <footer>
@@ -72,7 +32,7 @@
             <a href="https://docs.voucherify.io/docs/" target="_blank">Learn more about Voucherify</a>
           </div>
           <div class="column" style="text-align: right">
-            <a href="https://glitch.com/edit/#!/voucherify-referral-example" target="_blank">See the code</a>
+            <a href="https://glitch.com/edit/#!/voucherify-redemption-webhooks-example" target="_blank">See the code</a>
           </div>
         </div>
       </section>
