@@ -17,12 +17,27 @@
         <h1>
           Voucherify Redemption Webhooks Example
         </h1>
-        <p>This example showcases <a href="http://docs.voucherify.io/docs/webhooks">redemption webhooks</a>. It will show how you can easily get information about redemptions in your system.</p>
+        <p>This example showcases <a href="http://docs.voucherify.io/docs/webhooks" target="_blank">redemption webhooks</a>. It will show how you can easily get information about redemptions in your system.</p>
       </section>
     </header>
 
     <main>
+      <section class="container"><p>Get your code here</p></section>
+      <section class="container">
+        <fieldset>
+          <input type="text" placeholder="code"/>
+        </fieldset>
+        <button id="redeem">Redeem</button>
+      </section>
+      <section class="container">
+        <h4>Webhook events will be shown here:</h4>
+        <ul id="redemptions"></ul>
+      </section>
     </main>
+
+    <section>
+      <button>red</button>
+    </section>
 
     <footer>
       <hr/>
