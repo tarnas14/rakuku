@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
+const voucherifyPackage = require('voucherify')
 
 const {CAMPAIGN_NAME} = process.env
 
@@ -17,11 +18,6 @@ app.get('/', function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 })
 
-const voucherify = require('voucherify')({
-    applicationId: process.env.APPLICATION_ID,
-    clientSecretKey: process.env.CLIENT_SECRET_KEY
-});
-
 io.on('connection', socket => {
   app.post('/webhooks', (request, response) => {
     io.emit('webhook-event', request.body)
@@ -34,13 +30,23 @@ io.on('connection', socket => {
 })
 
 app.get('/code', (request, response) => {
-  voucherify.distributions.publish(CAMPAIGN_NAME).then(res => {
+  const {key, secret, campaignName} = request.query
+  const voucherify = voucherifyPackage({
+      applicationId: key,
+      clientSecretKey: secret
+  });
+
+  voucherify.distributions.publish(campaignName).then(res => {
     response.status(201).json(res)
   })  
 })
 
 app.post('/redeem', (request, response) => {
-  const {code} = request.body
+  const {code, key, secret} = request.body
+  const voucherify = voucherifyPackage({
+      applicationId: key,
+      clientSecretKey: secret
+  });
   
   voucherify.redemptions.redeem(code).then(redemptionResponse => {
     console.log(JSON.stringify(redemptionResponse))
@@ -49,7 +55,11 @@ app.post('/redeem', (request, response) => {
 })
 
 app.post('/rollback', (request, response) => {
-  const {id: redemptionId} = request.body
+  const {id: redemptionId, key, secret} = request.body
+  const voucherify = voucherifyPackage({
+      applicationId: key,
+      clientSecretKey: secret
+  });
   
   voucherify.redemptions.rollback(redemptionId).then(rollbackResponse => {
     console.log(JSON.stringify(rollbackResponse))

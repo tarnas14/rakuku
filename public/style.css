@@ -22,3 +22,7 @@ figure {
 figure img {
   display: inline-block;
 }
+
+fieldset[disabled] {
+  opacity: 0.6;
+}

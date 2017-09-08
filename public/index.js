@@ -30,7 +30,11 @@ const rollback = webhookRedemptionPayload => fetch('/rollback', {
   headers: {
     'Content-Type': 'application/json'
   },
-  body: JSON.stringify({id: webhookRedemptionPayload.data.object.id})
+  body: JSON.stringify({
+    id: webhookRedemptionPayload.data.object.id,
+    key: state.apiKey,
+    secret: state.apiSecret
+  })
 })
 
 const renderEvent = event => {
@@ -188,21 +192,43 @@ socket.on('webhook-event', data => {
 })
 
 documentReady.then(() => {
-  const getCode = () => fetch('/code').then(r => r.json()).then(({voucher: {code}}) => {
+  const getCode = (key, secret, campaignName) => fetch(`/code?key=${key}&secret=${secret}&campaignName=${campaignName}`).then(r => r.json()).then(({voucher: {code}}) => {
     state.code = code
     render()
   })
-  getCode()
+
+  const submitButton = document.getElementById('submitVoucherifyInfo')
+  submitButton.addEventListener('click', e => {
+    e.preventDefault()
+
+    state.apiKey = document.getElementById('api_key').value
+    state.apiSecret = document.getElementById('api_secret').value
+    const campaignName = document.getElementById('campaign_name').value
+
+    getCode(state.apiKey, state.apiSecret, campaignName).then(() => {
+      document.getElementById('redemptionTeaser').className += ' hidden'
+      document.getElementById('redemption').className = 'container'
+      document.querySelectorAll('fieldset').forEach(fieldset => {
+        fieldset.setAttribute('disabled', true)
+      })
+    })
+  })
   
   const redeemButton = document.getElementById('redeem')
-  redeemButton.addEventListener('click', () => {
+  redeemButton.addEventListener('click', e => {
+    e.preventDefault()
+
     redeemButton.setAttribute('disabled', 'disabled')
     fetch('/redeem', {
       headers: {
         'Content-Type': 'application/json'  
       },
       method: 'POST',
-      body: JSON.stringify({code: state.code})
+      body: JSON.stringify({
+        code: state.code,
+        key: state.apiKey,
+        secret: state.apiSecret
+      })
     }).then(() => {
       redeemButton.removeAttribute('disabled')      
     })
