@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Voucherify Redemption Webhooks Example</title>
+    <title>Voucherify Webhooks Example</title>
     <meta name="description" content="A Voucherify Webhooks example">
     <link id="favicon" rel="icon" href="https://www.voucherify.io/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
@@ -15,29 +15,22 @@
     <header>
       <section class="container">
         <h1>
-          Voucherify Redemption Webhooks Example
+          Voucherify Webhooks Example
         </h1>
-        <p>This example showcases <a href="http://docs.voucherify.io/docs/webhooks" target="_blank">redemption webhooks</a>. It will show how you can easily get information about redemptions in your system.</p>
+        <p>This example showcases <a href="http://docs.voucherify.io/docs/webhooks" target="_blank">webhooks</a>. It will show how you can easily get information about redemptions and other events in your system.</p>
       </section>
     </header>
 
     <main>
-      <section class="container"><p>Get your code here</p></section>
       <section class="container">
-        <fieldset>
-          <input type="text" placeholder="code"/>
-        </fieldset>
+        <p>The code you are going to be using:<br/><h5><em id="code"></em></h5></p>
         <button id="redeem">Redeem</button>
       </section>
       <section class="container">
         <h4>Webhook events will be shown here:</h4>
-        <ul id="redemptions"></ul>
+        <div id="webhookEvents"></div>
       </section>
     </main>
-
-    <section>
-      <button>red</button>
-    </section>
 
     <footer>
       <hr/>
@@ -47,7 +40,7 @@
             <a href="https://docs.voucherify.io/docs/" target="_blank">Learn more about Voucherify</a>
           </div>
           <div class="column" style="text-align: right">
-            <a href="https://glitch.com/edit/#!/voucherify-redemption-webhooks-example" target="_blank">See the code</a>
+            <a href="https://glitch.com/edit/#!/voucherify-webhooks-example" target="_blank">See the code</a>
           </div>
         </div>
       </section>
