@@ -23,9 +23,51 @@
 
     <main>
       <section class="container">
+        <h4>Setup the webhook in Voucherify</h4>
+        <p>In your Voucherify Project Settings add webhook to https://voucherify-webhooks-example.glitch.me (preferably set it to notify about all events)</p>
+        <figure>
+          <caption>setup webhook in Project Settings</caption><br/>
+          <img src="/webhook.png"/>
+        </figure>
+      </section>
+      <hr/>
+      <section class="container">
+        <h4>Start with a code publish and redemption</h4>
+        <p>
+          This is optional, you can just use your voucherify account to generate events, but we can help you with this here.<br/>
+          For this we need your Voucherify Application keys from your Project Settings and a campaign name of your choice.
+        </p>
+        <figure>
+          <caption>get Voucherify API keys here</caption><br/>
+          <img src="/api_keys.png"/>
+        </figure>
+        <fieldset>
+          <label>
+            Application ID
+            <input id="api_key" type="text"/>
+          </label>
+          <label>
+            Secret Key
+            <input id="api_secret" type="text"/>
+          </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            Campaign Name
+            <input id="campaign_name" type="text"/>
+          </label>
+        </fieldset>
+        <button id="submitVoucherifyInfo" class="button">Submit</button>
+      </section>
+      <hr/>
+      <section id="redemptionTeaser" class="container">
+        <p>The code from yoru campaign will be published here! You will also be able to redeem it</p>
+      </section>
+      <section class="container hidden" id="redemption">
         <p>The code you are going to be using:<br/><h5><em id="code"></em></h5></p>
         <button id="redeem">Redeem</button>
       </section>
+      <hr/>
       <section class="container">
         <h4>Webhook events will be shown here:</h4>
         <div id="webhookEvents"></div>

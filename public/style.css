@@ -10,3 +10,15 @@ fieldset {
   width: 50%;
   margin: 0 auto;
 }
+
+.hidden {
+  display: none;
+}
+
+figure {
+  text-align: center;
+}
+
+figure img {
+  display: inline-block;
+}
