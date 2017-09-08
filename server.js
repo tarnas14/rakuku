@@ -35,8 +35,6 @@ io.on('connection', socket => {
 
 app.get('/code', (request, response) => {
   voucherify.distributions.publish(CAMPAIGN_NAME).then(res => {
-    console.log('PUBLISH')
-    console.log(res)
     response.status(201).json(res)
   })  
 })
